@@ -11,33 +11,35 @@ initial_vectors="A(20,30,34) \nB(12,11,10) \nC(45,34,30)"
 st.sidebar.text("Inserisci  un punto per riga.\nPunti nella forma: \nA(1,2,3) \nB(4,5,6) \nC(7,8,9)")
 vettori=st.sidebar.text_area('',
     # 'Inserisci un punto per riga.\n Punti nella forma A(1,2,3) \n B(4,5,6) \n C(7,8,9)',
-    value=initial_vectors,height=100)
+    value=initial_vectors,height=100, on_change=update_points, key='vettori')
 
 def extract_input(user_input):
+
+    points_pattern="[A-Z]\(.+\)"
+    points_name_pattern="([A-Z])"
+    points_coord_pattern="\(([-]?\d+),([-]?\d+),([-]?\d+)\)"
+    points_string=re.findall(pattern=points_pattern,string=user_input, flags=re.MULTILINE)
+
+
+    points_dict={}
+    for str_point in points_string:
+        print(str_point)
+        point_name=re.findall(pattern=points_name_pattern,string=str_point)
+        point_coord=re.findall(pattern=points_coord_pattern,string=str_point)
+        coord_array=np.array([int(point_coord[0][0]),int(point_coord[0][1]),int(point_coord[0][2])])
+        points_dict[point_name[0]]=coord_array
+    return points_dict
+
+
+def update_points():
     try:
-        points_pattern="[A-Z]\(.+\)"
-        points_name_pattern="([A-Z])"
-        points_coord_pattern="\(([-]?\d+),([-]?\d+),([-]?\d+)\)"
-        points_string=re.findall(pattern=points_pattern,string=user_input, flags=re.MULTILINE)
-
-
-        points_dict={}
-        for str_point in points_string:
-            print(str_point)
-            point_name=re.findall(pattern=points_name_pattern,string=str_point)
-            point_coord=re.findall(pattern=points_coord_pattern,string=str_point)
-            coord_array=np.array([int(point_coord[0][0]),int(point_coord[0][1]),int(point_coord[0][2])])
-            points_dict[point_name[0]]=coord_array
-        return points_dict
+        points=extract_input(vettori)
     except:
-        return None
-
-if extract_input(vettori) is None:
-    st.sidebar.error("Errore nella sintassi")
-    points=extract_input(initial_vectors)
-else:
-    points=extract_input(vettori)
-
+        st.sidebar.error("Errore nell'input")
+        points=extract_input(initial_vectors)
+    else:
+        st.sidebar.success("Input corretto, punti aggiornati")
+        
 
 
 
