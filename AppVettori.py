@@ -164,7 +164,7 @@ with side_left:
 with side_right:
     st.write("Vettore 2")
 
-    start2=st.selectbox("Start",list(points.keys()),key='start2',on_change=update_choices, args=('start2',))
+    start2=st.selectbox("Start",list(reversed(points.keys())),key='start2',on_change=update_choices, args=('start2',))
     update_choices('start2')
     p_end2=st.empty()
     with p_end2:
