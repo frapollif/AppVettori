@@ -11,7 +11,7 @@ initial_vectors="A(20,30,34) \nB(12,11,10) \nC(45,34,30)"
 st.sidebar.text("Inserisci  un punto per riga.\nPunti nella forma: \nA(1,2,3) \nB(4,5,6) \nC(7,8,9)")
 vettori=st.sidebar.text_area('',
     # 'Inserisci un punto per riga.\n Punti nella forma A(1,2,3) \n B(4,5,6) \n C(7,8,9)',
-    value=initial_vectors,height=100, on_change=update_points, key='vettori')
+    value=initial_vectors,height=100)
 
 def extract_input(user_input):
 
@@ -31,15 +31,15 @@ def extract_input(user_input):
     return points_dict
 
 
-def update_points():
-    try:
-        points=extract_input(vettori)
-    except:
-        st.sidebar.error("Errore nell'input")
-        points=extract_input(initial_vectors)
-    else:
-        st.sidebar.success("Input corretto, punti aggiornati")
-        
+
+try:
+    points=extract_input(vettori)
+except:
+    st.sidebar.error("Errore nell'input")
+    points=extract_input(initial_vectors)
+else:
+    #st.sidebar.success("Input corretto, punti aggiornati")
+     pass   
 
 
 
