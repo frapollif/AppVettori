@@ -30,9 +30,13 @@ def extract_input(user_input):
             points_dict[point_name[0]]=coord_array
         return points_dict
     except:
-        return "Errore nella lettura dei punti"
+        return None
 
-points=extract_input(vettori)
+if extract_input(vettori) is None:
+    st.sidebar.error("Errore nella sintassi")
+    points=extract_input(initial_vectors)
+else:
+    points=extract_input(vettori)
 
 
 
