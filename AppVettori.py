@@ -14,21 +14,23 @@ vettori=st.sidebar.text_area('',
     value=initial_vectors,height=100)
 
 def extract_input(user_input):
-    points_pattern="[A-Z]\(.+\)"
-    points_name_pattern="([A-Z])"
-    points_coord_pattern="\(([-]?\d+),([-]?\d+),([-]?\d+)\)"
-    points_string=re.findall(pattern=points_pattern,string=user_input, flags=re.MULTILINE)
+    try:
+        points_pattern="[A-Z]\(.+\)"
+        points_name_pattern="([A-Z])"
+        points_coord_pattern="\(([-]?\d+),([-]?\d+),([-]?\d+)\)"
+        points_string=re.findall(pattern=points_pattern,string=user_input, flags=re.MULTILINE)
 
 
-    points_dict={}
-    for str_point in points_string:
-        print(str_point)
-        point_name=re.findall(pattern=points_name_pattern,string=str_point)
-        point_coord=re.findall(pattern=points_coord_pattern,string=str_point)
-        coord_array=np.array([int(point_coord[0][0]),int(point_coord[0][1]),int(point_coord[0][2])])
-        points_dict[point_name[0]]=coord_array
-    return points_dict
-
+        points_dict={}
+        for str_point in points_string:
+            print(str_point)
+            point_name=re.findall(pattern=points_name_pattern,string=str_point)
+            point_coord=re.findall(pattern=points_coord_pattern,string=str_point)
+            coord_array=np.array([int(point_coord[0][0]),int(point_coord[0][1]),int(point_coord[0][2])])
+            points_dict[point_name[0]]=coord_array
+        return points_dict
+    except:
+        return "Errore nella lettura dei punti"
 
 points=extract_input(vettori)
 
