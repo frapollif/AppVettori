@@ -1,10 +1,8 @@
-from turtle import up
 import streamlit as st
 from latexifier import latexify
 from IPython.display import Latex, Math, Markdown
 import numpy as np
 from sympy import *
-import json
 import re
 
 
