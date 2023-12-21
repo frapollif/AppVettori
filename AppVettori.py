@@ -1,9 +1,12 @@
+import enum
 import streamlit as st
 from latexifier import latexify
 
 import numpy as np
 from sympy import *
 import re
+
+from validators import es_cif
 
 
 initial_vectors="A(20,30,34) \nB(12,11,10) \nC(45,34,30)"
@@ -40,7 +43,7 @@ except:
 else:
     #st.sidebar.success("Input corretto, punti aggiornati")
      pass   
-
+points['O']=np.array([0,0,0])
 
 
 
@@ -166,43 +169,56 @@ with side_right:
     p_end2=st.empty()
     with p_end2:
         end2=st.selectbox("End",list(st.session_state.choices_end2),key='end2')
-                       
+
+            
+   
+pos_vec=st.expander("Vettori posizione",expanded=False) 
+with pos_vec:
+    num_col=len(points.keys())-1 #Do not count O
+    necessary_rows=num_col//4+1
+    columns=[st.columns(4) for i in range(necessary_rows)]
+    for i,key in enumerate(list(points.keys())):
+        current_row=i//4         
+        if key !='O':
+            with columns[current_row][i%4]:
+                st.latex(show_vector('O',key,show_latex=False))  
+   
+      
+      
+
+
+          
 left,right=st.columns(2)
 
 with left:
-    st.write("Vettore 1")
-    # st.sidebar.write("Vettore 1")
-    # start1=st.sidebar.selectbox("Start",list(points.keys()),key='start1', on_change=update_choices, args=('start1',))
-    # update_choices('start1')
- 
-    # p_end1=st.sidebar.empty()
-    # with p_end1:
-    #    end1=st.selectbox("End",list(st.session_state.choices_end1),key='end1')
-    st.latex(show_vector(start1,end1,show_latex=False))
-    st.latex(show_vector_norm(start1,end1,show_latex=False))
+    vec1_expander=st.expander("Vettore 1",expanded=True)
+    with vec1_expander:
+     
+
+        st.latex(show_vector(start1,end1,show_latex=False))
+        st.latex(show_vector_norm(start1,end1,show_latex=False))
 
     
 with right:
-    # st.sidebar.write("Vettore 2")
-    # start2=st.sidebar.selectbox("Start",list(points.keys()),key='start2',on_change=update_choices, args=('start2',))
-    # update_choices('start2')
-    # p_end2=st.sidebar.empty()
-    # with p_end2:
-    #     end2=st.selectbox("End",list(st.session_state.choices_end2),key='end2')
-    # end2=st.selectbox("End",list(points.keys()),key='end2')
-    st.write("Vettore 2")
-    st.latex(show_vector(start2,end2,show_latex=False))
-    st.latex(show_vector_norm(start2,end2,show_latex=False))
+    
+    vec2_expander=st.expander("Vettore 2",expanded=True)
+    with vec2_expander:
+        
+        st.latex(show_vector(start2,end2,show_latex=False))
+        st.latex(show_vector_norm(start2,end2,show_latex=False))
 
 
+dot_expander=st.expander("Prodotto scalare e angolo",expanded=True)
+with dot_expander:
+    st.latex(show_dot_product(start1,end1,start2,end2,show_latex=False))
+    st.latex(show_angle(start1,end1,start2,end2,show_latex=False))
 
-st.write("Prodotto scalare e angolo")
-st.latex(show_dot_product(start1,end1,start2,end2,show_latex=False))
-st.latex(show_angle(start1,end1,start2,end2,show_latex=False))
 
-st.write("Prodotto vettoriale e norma")
-st.latex(show_cross_product(start1,end1,start2,end2,show_latex=False))
-st.latex(show_cross_product_norm(start1,end1,start2,end2,show_latex=False))
+cross_expander=st.expander("Prodotto vettoriale e norma",expanded=True)
+with cross_expander:
+    st.latex(show_cross_product(start1,end1,start2,end2,show_latex=False))
+    st.latex(show_cross_product_norm(start1,end1,start2,end2,show_latex=False))
+
 
 
 
