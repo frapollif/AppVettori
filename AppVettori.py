@@ -1,4 +1,4 @@
-import enum
+
 import streamlit as st
 from latexifier import latexify
 
@@ -6,7 +6,6 @@ import numpy as np
 from sympy import *
 import re
 
-from validators import es_cif
 
 
 initial_vectors="A(20,30,34) \nB(12,11,10) \nC(45,34,30)"

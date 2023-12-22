@@ -1,4 +1,5 @@
 latexifier
 numpy
 sympy
+re
 
